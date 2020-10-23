@@ -6,25 +6,34 @@ admin_password="passw0rd"
 # pws
 pwd=$(pwd)
 
-# install depndencys
-sudo dnf install epel-release -y
-sudo dnf install git gcc gcc-c++ ansible nodejs gettext device-mapper-persistent-data lvm2 bzip2 python3-pip -y
-sudo dnf install langpacks-en glibc-all-langpacks -y
-sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+# Rhel Subsriptions
+sudo subscription-manager register --username karl.petter.andersson --password M7xT5O0zsFiT --auto-attach
 
-#install docker
-docker_ver=$(dnf list docker-ce  --showduplicates | grep docker-ce. | awk '{print $2}')
-sudo dnf install docker-ce-$docker_ver -y
+# Subscription config
+sudo subscription-manager repos --disable="*" \
+                           --enable=rhel-7-server-rpms \
+                           --enable=rhel-7-server-extras-rpms
+
+
+sudo yum update -y
+sudo yum install docker docker-python3 python3 python-pip libselinux-python3 git ansible vim bash-completion gcc -y
+
+sudo pip install docker requests docker-compose
+sudo pip3 install requests docker docker-compose
 
 # Start docker
 sudo systemctl start docker
 sudo systemctl enable docker
+sudo groupadd docker
 sudo usermod -aG docker $USER
-newgrp docker
-sudo pip3 install docker-compose
+sudo systemctl restart docker
+
 
 # switch to python 3
-alternatives --set python /usr/bin/python3
+sudo unlink /usr/bin/python
+sudo ln -s /usr/bin/python3 /usr/bin/python
+
+
 
 # clone AWX
 echo "clone awx"
@@ -58,3 +67,6 @@ fi
 
 # Disabel Selinux
 sudo sed -i "/SELINUX=enforcing/c\SELINUX=disabled" /etc/sysconfig/selinux 
+
+
+docker network create -d bridge --gateway=192.168.20.1 --subnet=192.168.20.1/24 mybridge

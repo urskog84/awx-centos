@@ -1,17 +1,17 @@
 Vagrant.configure("2") do |config|
-  config.vm.define "centos" do |master|
-    master.vm.box = "generic/centos8"
-    master.vm.hostname = "centos"
+  config.vm.define "rhel7" do |master|
+    master.vm.box = "generic/rhel7"
+    master.vm.hostname = "rhel7"
 
-    master.vm.network "private_network", ip: "192.168.20.100"
+    master.vm.network "private_network", ip: "192.168.20.101"
     master.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.ssh.insert_key = false
   config.vm.provider "virtualbox" do |vb|
-   vb.name = "centos"
+   vb.name = "rhel7"
    vb.gui = false
-   vb.memory = "4048"
-   vb.cpus = "4"
+   vb.memory = "2048"
+   vb.cpus = "2"
         end
     end
     config.vm.provision "install_awx_manage", type: "shell", path: "install_awx_manage.sh"
