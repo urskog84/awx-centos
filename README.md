@@ -14,6 +14,7 @@ Install AWX om Centos 7 vagrant box.
 ssh vagrant@192.168.20.100 -i ~/.vagrant.d/insecure_private_key 
 
 ## Insperation from 
+- https://gist.github.com/davivcgarcia/86bb4746c430ec719235217daf8198d8
 - https://github.com/r3ap3rpy/vagrantseries/tree/master/custommachines/awx
 - https://www.youtube.com/watch?v=Ykzm-Yw8OCA&t=630s
 - https://www.youtube.com/watch?v=iIQ62T-Gsxw&t=11s
